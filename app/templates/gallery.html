@@ -1,0 +1,177 @@
+{% include "layout/top.html" %} {% block content%} {% endblock %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                    Tambah 
+                </button>
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Created At</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Created At</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            {% for d in data %}
+                            <tr>
+                                <td>
+                                    <img src="static/upload/{{ d[1] }}" alt="" class="img-thumbnail">
+                                </td>
+                                <td>{{ d[2] }}</td>
+                                <td>{{ d[3] }}</td>
+                                <td>{{ d[4] }}</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-warning btn_ubah" data-toggle="modal" data-target="#ubahModal" data-id="{{ d[0] }}">
+                                            Ubah 
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn_hapus" data-toggle="modal" data-target="#exampleModal" data-id="{{ d[0] }}">
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Tambah Item</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form action="" method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" name="title">
+            </div>
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea class="form-control" id="content" rows="3" name="content"></textarea>
+            </div>
+            <div class="form-group">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="foto" name="foto">
+                    <label class="custom-file-label" for="foto">Pilih Foto</label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+  
+
+<div class="modal fade" id="ubahModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Ubah Item</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form action="{{ request.base_url }}/update/" method="post">
+        <input type="hidden" name="id" id="id_gallery">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title_ubah" name="title_ubah">
+            </div>
+            <div class="form-group">
+                <label for="content">Content</label>
+                <textarea class="form-control" id="content_ubah" rows="3" name="content_ubah"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Hapus Item</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Apakah Anda Yakin ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-primary" id="btn_hapus">Yakin</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% include "layout/bottom.html" %} 
+<script>
+    $(document).on('click', '.btn_hapus', function(){
+        $('#btn_hapus').attr('data-id', $(this).data('id'));
+    })
+    $(document).on('click', '#btn_hapus', function(){
+        document.location.href = "{{ request.base_url }}/destroy/"+$(this).data('id')
+        // $.ajax({
+        //     url: "{{ request.base_url }}/destroy/"+$(this).data('id'),
+        //     type: 'GET',
+        //     dataType: 'json',
+        //     success: function(res) {
+        //         console.log(res);
+        //     }
+        // });
+    })
+    $(document).on('click', '.btn_ubah', function(){
+        $.ajax({
+            url: "{{ request.base_url }}/getOne/"+$(this).data('id'),
+            type: 'GET',
+            dataType: 'json',
+            success: function(res) {
+                $('#id_gallery').val(res[0]);
+                $('#title_ubah').val(res[2]);
+                $('#content_ubah').val(res[3]);
+            }
+        });
+    })
+</script>

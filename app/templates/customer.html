@@ -1,0 +1,51 @@
+{% include "layout/top.html" %} {% block content%} {% endblock %}
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Customer</h1>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama</th>
+                                <th>Kabupaten / Kota</th>
+                                <th>Kelurahan</th>
+                                <th>No Telp</th>
+                                <th>Created At</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama</th>
+                                <th>Kabupaten / Kota</th>
+                                <th>Kelurahan</th>
+                                <th>No Telp</th>
+                                <th>Created At</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            {% for d in data %}
+                            <tr>
+                                <td>{{ d[0] }}</td>
+                                <td>{{ d[1] }}</td>
+                                <td>{{ d[4] }}</td>
+                                <td>{{ d[2] }}</td>
+                                <td>{{ d[3] }}</td>
+                                <td>{{ d[5] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "layout/bottom.html" %} 

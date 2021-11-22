@@ -1,0 +1,30 @@
+{% include "layout_front/top.html" %} {% block content%} {% endblock %}
+<!-- Profile section -->
+<section id="profile">
+    <div class="container">
+        <div class="row">
+
+            <div class="sec-title text-center">
+                <h2 class="wow animated bounceInLeft">Profile</h2>
+                <p class="wow animated bounceInRight">{{ data.nama }} / {{ data.jobtitle }}</p>
+            </div>
+
+            <div class="fotoprofil" style="background-image: url(static/upload{{ data.foto }});"></div>
+            
+            <div class="col-md-6">
+                <div class="deskripsi">
+                    <p>{{data.deskripsi}}</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="deskripsi">
+                    <p>{{data.deskripsi}}</p>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+</section>
+<!-- end Profile section -->
+{% include "layout_front/bottom.html" %} 
